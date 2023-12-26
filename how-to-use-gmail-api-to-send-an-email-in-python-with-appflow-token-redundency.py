@@ -13,11 +13,8 @@ from email.mime.image import MIMEImage
 from email.mime.base import MIMEBase
 
 
-emailId = 'ash.temp.new@gmail.com'
-SCOPES = ['https://mail.google.com/']
-creds = None
-
-def gapisend(MIMEMultiMsg):
+def gapisend(emailId, SCOPES, MIMEMultiMsg):
+    creds = None
     if os.path.exists("./credentials/" + str(emailId) + "-token.json"):
        creds = Credentials.from_authorized_user_file("./credentials/" + str(emailId) + "-token.json", SCOPES)
     if not creds or not creds.valid:
@@ -42,11 +39,15 @@ def gapisend(MIMEMultiMsg):
        SrvRsp = None
 
 if __name__ == '__main__':
+
+    emailId = 'ash.temp.new@gmail.com'
+    SCOPES = ['https://mail.google.com/']
+    
     emailMsg = 'You won $100,000'
     mimeMessage = MIMEMultipart()
     mimeMessage['to'] = 'ashloverscn@gmail.com'
     mimeMessage['subject'] = 'You won'
     mimeMessage.attach(MIMEText(emailMsg, 'plain'))
 
-    gapisend(mimeMessage)
+    gapisend(emailId, SCOPES, mimeMessage)
     print('done')
