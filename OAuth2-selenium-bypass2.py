@@ -14,6 +14,8 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from requests import HTTPError
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -47,7 +49,9 @@ if __name__ == '__main__':
     auth_url, _ =  flow.authorization_url(prompt='consent')
     authorization_thread = threading.Thread(target=run_authorization_flow)
     authorization_thread.start()
-    driver = uc.Chrome()
+    #driver = webdriver.Chrome()
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    #driver = uc.Chrome()
     driver.maximize_window()
     driver.get(auth_url)
     print(auth_url)
